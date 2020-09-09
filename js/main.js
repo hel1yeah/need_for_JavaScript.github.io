@@ -30,11 +30,27 @@ function startGame() {
   setting.start = true;
   gameArea.appendChild(car);
   car.classList.add('car');
+  setting.x = car.offsetLeft;
+  setting.y = car.offsetBottom;
 }
 // функция playGame  перезапускает саму себя постоянно пока значение setting.start === true
 function playGame() {
   console.log('play bGame');
   if (setting.start) {
+    if (keys.ArrowLeft) {
+      setting.x -= setting.speed;
+    }
+    if (keys.ArrowRight) {
+      setting.x += setting.speed;
+    }
+    if (keys.ArrowUp) {
+      setting.y -= setting.speed;
+    }
+    if (keys.ArrowDown) {
+      setting.y += setting.speed;
+    }
+    car.style.left = setting.x + 'px';
+    car.style.bottom = setting.y + 'px';
     requestAnimationFrame(playGame);
   }
   

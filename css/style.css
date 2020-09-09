@@ -1,5 +1,5 @@
 body {
-  background-color:  #606060;
+
   font-family: 'Balsamiq Sans',
   cursive;
   /* font-family: 'Open Sans',
@@ -11,8 +11,17 @@ body {
 .hide{
   display: none;
 }
-
+.game_area{
+  width: 300px;
+  height: 500px;
+  position: relative;
+  margin: auto;
+  background-color: #606060;
+}
 .car{
+  position: absolute;
+  left: 125px;
+  bottom: 15px;
   width: 45px;
   height: 100px;
   background: transparent url('../image/lamb.png') center no-repeat;
