@@ -12,13 +12,16 @@ body {
   display: none;
 }
 .game_area{
+  z-index: 1;
+  overflow: hidden;
   width: 300px;
   height: 500px;
   position: relative;
   margin: auto;
   background-color: #606060;
 }
-.car{
+.car, .enemy{
+  z-index: 3;
   position: absolute;
   left: 125px;
   bottom: 15px;
@@ -29,3 +32,17 @@ body {
   border-radius: 20px;
   
 }
+
+
+
+.line {
+  z-index: 1;
+  position: absolute;
+  width: 5px;
+  height: 35px;
+  background-color: #fff;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+}
+
