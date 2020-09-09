@@ -1,0 +1,22 @@
+body {
+  background-color:  #606060;
+  font-family: 'Balsamiq Sans',
+  cursive;
+  /* font-family: 'Open Sans',
+  sans-serif; */
+}
+.start{
+  text-align: center;
+}
+.hide{
+  display: none;
+}
+
+.car{
+  width: 45px;
+  height: 100px;
+  background: transparent url('../image/lamb.png') center no-repeat;
+  background-size: contain;
+  border-radius: 20px;
+  
+}
