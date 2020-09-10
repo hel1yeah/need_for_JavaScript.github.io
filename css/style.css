@@ -7,9 +7,15 @@ body {
 }
 .start{
   text-align: center;
+  height: 2rem;
+  line-height: 2rem;
+  background-color: #009900;
 }
 .hide{
   display: none;
+}
+.wisibl{
+  display: block;
 }
 .game_area{
   z-index: 1;
@@ -23,8 +29,6 @@ body {
 .car, .enemy{
   z-index: 3;
   position: absolute;
-  left: 125px;
-  bottom: 15px;
   width: 45px;
   height: 100px;
   background: transparent url('../image/lamb.png') center no-repeat;
@@ -46,3 +50,16 @@ body {
   transform: translateX(-50%);
 }
 
+.score {
+  display: block;
+  transition: all 1s;
+  text-align: center;
+  background-color: #3333CC;
+  height: 0px;
+  
+  overflow: hidden;
+}
+.active{
+  height: 3rem;
+  padding-top: 1rem;
+}

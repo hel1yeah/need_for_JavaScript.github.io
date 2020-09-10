@@ -32,11 +32,20 @@ function getQuantityElements(heightElement) {
 
 // функция startGame выполняеться после нажатия на блок 'start' и запускает функцию playGame
 function startGame() {
+  start.classList.add('hide');
+  score.classList.add('active');
   // requestAnimationFrame указывает браузеру на то, что вы хотите произвести анимацию, и просит его запланировать перерисовку на следующем кадре анимациию
+
   requestAnimationFrame(playGame);
+
+  gameArea.innerHTML = ' ';
   setting.start = true;
   gameArea.appendChild(car);
   car.classList.add('car');
+  car.style.left = ((gameArea.offsetWidth / 2) - car.offsetWidth / 2)+ 'px';
+  let w = car.style.left
+  console.log(w);
+  car.style.bottom = '15px';
   setting.x = car.offsetLeft;
   setting.y = car.offsetTop;
 
@@ -57,12 +66,12 @@ function startGame() {
     enemy.style.backgroundSize = 'contain';
     enemy.style.top = enemy.y + 'px';
     gameArea.appendChild(enemy);
-    
   }
-
 }
 // функция playGame  перезапускает саму себя постоянно пока значение setting.start === true
 function playGame() {
+    setting.score += setting.speed;
+  score.innerHTML = 'SCORE: <br>' + setting.score;
   if (setting.start) {
     moveRoad();
     moveEnemy();
@@ -88,7 +97,7 @@ function moveRoad() {
   linesPage.forEach( function (elem) {
     elem.y += setting.speed;
     elem.style.top = elem.y + 'px';
-    if (elem.y > document.documentElement.clientHeight) {
+    if (elem.y >= document.documentElement.clientHeight) {
       elem.y = -100;
     }
   });
@@ -96,9 +105,21 @@ function moveRoad() {
 function moveEnemy() {
   let enemyPage = document.querySelectorAll('.enemy');
   enemyPage.forEach(function (elem) {
+    let carRect = car.getBoundingClientRect();
+    let enemyRect = elem.getBoundingClientRect();
+
+    if (carRect.top <= enemyRect.bottom && 
+      carRect.right >= enemyRect.left && 
+      carRect.left <= enemyRect.right && 
+      carRect.bottom >= enemyRect.top) {
+      start.classList.remove('hide');
+      setting.start = false;
+
+    }
+
     elem.y += setting.speed / 2;
     elem.style.top = elem.y + 'px';
-    if (elem.y > document.documentElement.clientHeight) {
+    if (elem.y >= document.documentElement.clientHeight) {
       elem.y = -100 * setting.traffic;
       elem.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - 50)) + 'px';
     }
