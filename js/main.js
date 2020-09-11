@@ -13,10 +13,10 @@ document.addEventListener('keydown', startRun);
 document.addEventListener('keyup', stopRun);
 // отбьект для кнопок
 const keys = {
-  ArrowUp : false,
-  ArrowDown : false,
-  ArrowRight : false,
-  ArrowLeft : false,
+  ArrowUp: false,
+  ArrowDown: false,
+  ArrowRight: false,
+  ArrowLeft: false,
 };
 const setting = {
   start: false,
@@ -26,7 +26,7 @@ const setting = {
 };
 
 function getQuantityElements(heightElement) {
-  return (document.documentElement.clientHeight/heightElement) + 1;
+  return (document.documentElement.clientHeight / heightElement) + 1;
 }
 
 
@@ -35,16 +35,13 @@ function startGame() {
   start.classList.add('hide');
   score.classList.add('active');
   // requestAnimationFrame указывает браузеру на то, что вы хотите произвести анимацию, и просит его запланировать перерисовку на следующем кадре анимациию
-
   requestAnimationFrame(playGame);
 
   gameArea.innerHTML = ' ';
   setting.start = true;
   gameArea.appendChild(car);
   car.classList.add('car');
-  car.style.left = ((gameArea.offsetWidth / 2) - car.offsetWidth / 2)+ 'px';
-  let w = car.style.left
-  console.log(w);
+  car.style.left = ((gameArea.offsetWidth / 2) - car.offsetWidth / 2) + 'px';
   car.style.bottom = '15px';
   setting.x = car.offsetLeft;
   setting.y = car.offsetTop;
@@ -52,7 +49,7 @@ function startGame() {
   for (let i = 0; i < getQuantityElements(35); i++) {
     const line = document.createElement('div');
     line.classList.add('line');
-    line.style.top = (i * 100) + 'px';
+    line.style.top = `${i * 100}px`;
     gameArea.appendChild(line);
     line.y = i * 100;
   }
@@ -70,7 +67,7 @@ function startGame() {
 }
 // функция playGame  перезапускает саму себя постоянно пока значение setting.start === true
 function playGame() {
-    setting.score += setting.speed;
+  setting.score += setting.speed;
   score.innerHTML = 'SCORE: <br>' + setting.score;
   if (setting.start) {
     moveRoad();
@@ -81,7 +78,7 @@ function playGame() {
     if (keys.ArrowRight && setting.x < (gameArea.offsetWidth - (car.offsetWidth + 5))) {
       setting.x += setting.speed;
     }
-    if (keys.ArrowUp && setting.y > 5 ) {
+    if (keys.ArrowUp && setting.y > 5) {
       setting.y -= setting.speed;
     }
     if (keys.ArrowDown && setting.y < (gameArea.offsetHeight - (car.offsetHeight + 5))) {
@@ -94,7 +91,7 @@ function playGame() {
 }
 function moveRoad() {
   let linesPage = document.querySelectorAll('.line');
-  linesPage.forEach( function (elem) {
+  linesPage.forEach(function (elem) {
     elem.y += setting.speed;
     elem.style.top = elem.y + 'px';
     if (elem.y >= document.documentElement.clientHeight) {
@@ -108,9 +105,9 @@ function moveEnemy() {
     let carRect = car.getBoundingClientRect();
     let enemyRect = elem.getBoundingClientRect();
 
-    if (carRect.top <= enemyRect.bottom && 
-      carRect.right >= enemyRect.left && 
-      carRect.left <= enemyRect.right && 
+    if (carRect.top <= enemyRect.bottom &&
+      carRect.right >= enemyRect.left &&
+      carRect.left <= enemyRect.right &&
       carRect.bottom >= enemyRect.top) {
       start.classList.remove('hide');
       setting.start = false;
@@ -125,12 +122,22 @@ function moveEnemy() {
     }
   });
 }
+/* ================================================== 
+  Решение проблемы с сбросом preventDefault (стандарнтного поведения браузера при нажатых клавишах)
+*/
 function startRun(event) {
-  event.preventDefault();
-  keys[event.key] = true;
+  if (event.key !== 'F5' && event.key !== 'F12') {
+    event.preventDefault();
+
+    if (keys.hasOwnProperty(event.key)) {
+      keys[event.key] = true;
+    }
+  }
 }
 function stopRun(event) {
-  event.preventDefault();
-  keys[event.key] = false;
+    if (keys.hasOwnProperty(event.key)) {
+      event.preventDefault();
+      keys[event.key] = false;
+    }
 }
 

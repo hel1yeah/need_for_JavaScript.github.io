@@ -21,7 +21,7 @@ body {
   z-index: 1;
   overflow: hidden;
   width: 300px;
-  height: 500px;
+  height: 80vh;
   position: relative;
   margin: auto;
   background-color: #606060;
@@ -36,9 +36,6 @@ body {
   border-radius: 20px;
   
 }
-
-
-
 .line {
   z-index: 1;
   position: absolute;
@@ -49,7 +46,6 @@ body {
   bottom: 10px;
   transform: translateX(-50%);
 }
-
 .score {
   display: block;
   transition: all 1s;
