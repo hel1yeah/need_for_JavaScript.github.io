@@ -32,10 +32,11 @@ function getQuantityElements(heightElement) {
 
 // функция startGame выполняеться после нажатия на блок 'start' и запускает функцию playGame
 function startGame() {
-  start.classList.add('hide');
-  score.classList.add('active');
   // requestAnimationFrame указывает браузеру на то, что вы хотите произвести анимацию, и просит его запланировать перерисовку на следующем кадре анимациию
   requestAnimationFrame(playGame);
+  start.classList.add('hide');
+  score.classList.add('active');
+
 
   gameArea.innerHTML = ' ';
   setting.start = true;
@@ -56,10 +57,11 @@ function startGame() {
 
   for (let i = 0; i < getQuantityElements(100 * setting.traffic); i++) {
     const enemy = document.createElement('div');
+    const randomEnemy = Math.floor(Math.random() * 7) + 1 ;
     enemy.classList.add('enemy');
-    enemy.y = 100 * setting.traffic * (1 + i);
+    enemy.y = -100 * setting.traffic * (1 + i);
     enemy.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - 50)) + 'px';
-    enemy.style.background = `transparent url(../image/enemy2.png) center no-repeat`;
+    enemy.style.background = `transparent url(../image/enemy${randomEnemy}.png) center no-repeat`;
     enemy.style.backgroundSize = 'contain';
     enemy.style.top = enemy.y + 'px';
     gameArea.appendChild(enemy);
@@ -89,6 +91,8 @@ function playGame() {
     requestAnimationFrame(playGame);
   }
 }
+
+
 function moveRoad() {
   let linesPage = document.querySelectorAll('.line');
   linesPage.forEach(function (elem) {
@@ -99,8 +103,11 @@ function moveRoad() {
     }
   });
 }
+
+
 function moveEnemy() {
   let enemyPage = document.querySelectorAll('.enemy');
+
   enemyPage.forEach(function (elem) {
     let carRect = car.getBoundingClientRect();
     let enemyRect = elem.getBoundingClientRect();
@@ -111,33 +118,37 @@ function moveEnemy() {
       carRect.bottom >= enemyRect.top) {
       start.classList.remove('hide');
       setting.start = false;
-
     }
+
 
     elem.y += setting.speed / 2;
     elem.style.top = elem.y + 'px';
+
     if (elem.y >= document.documentElement.clientHeight) {
       elem.y = -100 * setting.traffic;
       elem.style.left = Math.floor(Math.random() * (gameArea.offsetWidth - 50)) + 'px';
     }
+
   });
 }
-/* ================================================== 
+
+/* ================================================================================================ 
   Решение проблемы с сбросом preventDefault (стандарнтного поведения браузера при нажатых клавишах)
 */
+
 function startRun(event) {
   if (event.key !== 'F5' && event.key !== 'F12') {
     event.preventDefault();
-
     if (keys.hasOwnProperty(event.key)) {
       keys[event.key] = true;
     }
   }
 }
+
 function stopRun(event) {
     if (keys.hasOwnProperty(event.key)) {
       event.preventDefault();
       keys[event.key] = false;
+      
     }
 }
-
