@@ -40,7 +40,7 @@ function startGame() {
 
   gameArea.innerHTML = ' ';
   setting.start = true;
-  gameArea.appendChild(car);
+  gameArea.append(car);
   car.classList.add('car');
   car.style.left = ((gameArea.offsetWidth / 2) - car.offsetWidth / 2) + 'px';
   car.style.bottom = '15px';
@@ -51,7 +51,7 @@ function startGame() {
     const line = document.createElement('div');
     line.classList.add('line');
     line.style.top = `${i * 100}px`;
-    gameArea.appendChild(line);
+    gameArea.append(line);
     line.y = i * 100;
   }
 
@@ -64,7 +64,7 @@ function startGame() {
     enemy.style.background = `transparent url(../image/enemy${randomEnemy}.png) center no-repeat`;
     enemy.style.backgroundSize = 'contain';
     enemy.style.top = enemy.y + 'px';
-    gameArea.appendChild(enemy);
+    gameArea.append(enemy);
   }
 }
 // функция playGame  перезапускает саму себя постоянно пока значение setting.start === true
