@@ -4,10 +4,17 @@ body {
   cursive;
   /* font-family: 'Open Sans',
   sans-serif; */
+  background-image: url('../image/les.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .game{
   position: relative;
-
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-self: center;
 }
 
 .hide{
@@ -20,18 +27,21 @@ body {
   z-index: 1;
   overflow: hidden;
   width: 300px;
-  height: 100vh;
+  height: 100%;
   position: relative;
   margin: auto;
   background-color: #606060;
+  /* border-left: 5px solid white;
+  border-right: 5px solid white; */
+
 }
 .car, .enemy{
   z-index: 3;
   position: absolute;
   width: 45px;
   height: 100px;
-  background: transparent url('../image/lamb.png') center no-repeat;
-  background-size: contain;
+  background: transparent url('../image/geleck.png') center no-repeat;
+  background-size: cover;
   border-radius: 20px;
   
 }
@@ -59,7 +69,8 @@ body {
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
-.start {
+.start,
+.reset {
   position: absolute;
   width: 100%;
   z-index: 2;
@@ -67,6 +78,9 @@ body {
   height: 2rem;
   line-height: 2rem;
   background-color: #009900;
+}
+.reset{
+    background-color: firebrick;
 }
 .active{
   height: 3rem;
