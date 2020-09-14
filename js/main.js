@@ -3,7 +3,8 @@
 const score = document.querySelector('.score'),
   start = document.querySelector('.start'),
   gameArea = document.querySelector('.game_area'),
-  car = document.createElement('div');
+  car = document.createElement('div'),
+  game = document.querySelector('.game');
 /* вешаем обработчик событий click на константу start
   при клике на див с классом .start запускаем фунцию  startGame */
 start.addEventListener('click', startGame);
@@ -11,6 +12,15 @@ start.addEventListener('click', startGame);
 document.addEventListener('keydown', startRun);
 /* вешаем обработчик событий keyup (отпущенная кнопка  кнопка) на константу весь html document. При нажатии запускаеться функция stopRun */
 document.addEventListener('keyup', stopRun);
+
+// делаем звук
+const audio = document.createElement('audio');
+audio.src = '../soundTrack.mp3';
+// audio.type = 'audio/mp3';
+// audio.style.cssText = ``;
+audio.volume = 0.1;
+console.dir(audio);
+
 // отбьект для кнопок
 const keys = {
   ArrowUp: false,
@@ -21,7 +31,7 @@ const keys = {
 const setting = {
   start: false,
   score: 0,
-  speed: 3,
+  speed: 5,
   traffic: 3,
 };
 
@@ -32,6 +42,9 @@ function getQuantityElements(heightElement) {
 
 // функция startGame выполняеться после нажатия на блок 'start' и запускает функцию playGame
 function startGame() {
+  game.append(audio);
+  audio.play();
+
   // requestAnimationFrame указывает браузеру на то, что вы хотите произвести анимацию, и просит его запланировать перерисовку на следующем кадре анимациию
   requestAnimationFrame(playGame);
   start.classList.add('hide');
@@ -118,6 +131,7 @@ function moveEnemy() {
       carRect.bottom >= enemyRect.top) {
       start.classList.remove('hide');
       setting.start = false;
+      audio.pause();
     }
 
 
@@ -146,9 +160,14 @@ function startRun(event) {
 }
 
 function stopRun(event) {
+
     if (keys.hasOwnProperty(event.key)) {
       event.preventDefault();
       keys[event.key] = false;
       
     }
 }
+/* ================================================================================================
+  давляем музыку
+*/
+

@@ -5,12 +5,11 @@ body {
   /* font-family: 'Open Sans',
   sans-serif; */
 }
-.start{
-  text-align: center;
-  height: 2rem;
-  line-height: 2rem;
-  background-color: #009900;
+.game{
+  position: relative;
+
 }
+
 .hide{
   display: none;
 }
@@ -21,7 +20,7 @@ body {
   z-index: 1;
   overflow: hidden;
   width: 300px;
-  height: 80vh;
+  height: 100vh;
   position: relative;
   margin: auto;
   background-color: #606060;
@@ -47,13 +46,27 @@ body {
   transform: translateX(-50%);
 }
 .score {
+  position: absolute;
+  z-index: 2;
+  top: 2rem;
+  width: 100%;
   display: block;
   transition: all 1s;
   text-align: center;
   background-color: #3333CC;
   height: 0px;
-  
   overflow: hidden;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.start {
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  text-align: center;
+  height: 2rem;
+  line-height: 2rem;
+  background-color: #009900;
 }
 .active{
   height: 3rem;
