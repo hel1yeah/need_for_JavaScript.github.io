@@ -1,4 +1,4 @@
-'use string';
+'use strict';
 // получаем константы 
 const SCORE = document.querySelector('.score'),
   START = document.querySelector('.start'),
@@ -19,7 +19,7 @@ document.addEventListener('keyup', stopRun);
 // музыка
 const audioMuzlo = document.createElement('audio');
 // audioMuzlo.src = '../audio/soundTrack.mp3';
-audioMuzlo.volume = 0.05;
+audioMuzlo.volume = 0.5;
 // звук мотора
 const audioEngine = document.createElement('audio');
 // audioEngine.src = '../audio/engine1.mp3';
@@ -27,7 +27,7 @@ audioEngine.volume = 0.05;
 audioEngine.loop = true;
 
 // настройки высоты GAME_AREA
-const COUNT_SECTION = Math.floor(document.documentElement.clientHeight / HEIGHT_ELEM)
+const COUNT_SECTION = Math.floor(document.documentElement.clientHeight / HEIGHT_ELEM);
 
 GAME_AREA.style.height = COUNT_SECTION * HEIGHT_ELEM;
 
