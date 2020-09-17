@@ -126,30 +126,30 @@ function startGame() {
     // записываем в обьект LINE новое свойство `y` и задаём ему значение
     // В функции moveRoad мы будем обращаться к `LINE.y` как к `elem.y`
     LINE.y = i * HEIGHT_ELEM;
-    console.log(LINE.y);
   }
 
 
   for (let i = 0; i < getQuantityElements(HEIGHT_ELEM * setting.traffic); i++) {
-    const enemy = document.createElement('div');
-    const randomEnemy = Math.floor(Math.random() * 11) + 1;
-    enemy.classList.add('enemy');
-    enemy.y = -HEIGHT_ELEM * setting.traffic * (1 + i);
-    enemy.style.left = Math.floor(Math.random() * (GAME_AREA.offsetWidth - HEIGHT_ELEM / 2)) + 'px';
+    const enemy = document.createElement('div'); // создаём елемент
+    const randomEnemy = Math.floor(Math.random() * 11) + 1; // константа которая считает рандомное число в зависимости от количевства машинок enemy у меня их 11
+    enemy.classList.add('enemy'); // создаём класс енеми
+    enemy.y = (-HEIGHT_ELEM - 40) * setting.traffic * ( 1 + i ) ; // высота появления машинок 
+    enemy.style.left = Math.floor(Math.random() * (GAME_AREA.offsetWidth - HEIGHT_ELEM / 2)) + 'px';// рандомное расстояние enemy от левого края с учётом того что бы машинка не касалась правого края
     enemy.style.background = `transparent url(../image/enemy${randomEnemy}.png) center no-repeat`;
     enemy.style.backgroundSize = 'cover';
     enemy.style.top = enemy.y + 'px';
-    GAME_AREA.append(enemy);
+    GAME_AREA.append(enemy); // добавляем машинку на страницу 
   }
 }
 // функция playGame  перезапускает саму себя постоянно пока значение setting.start === true
 function playGame() {
-  if (setting.start) {
-    setting.score += setting.speed;
-    SCORE.innerHTML = 'SCORE: <br>' + setting.score;
-    moveRoad();
-    moveEnemy();
-    if (keys.ArrowLeft && setting.x > 5) {
+  requestAnimationFrame(playGame);
+  if (setting.start) { //setting.start если true то постоянно віполняеться функция playGame() 
+    moveRoad();  // запускаем функцию
+    moveEnemy(); // запускаем функцию
+    setting.score += setting.speed; // присваеваем значение скорости значениям отков 
+    SCORE.innerHTML = 'SCORE: <br>' + setting.score; //выводим нужные очки на страницу 
+    if (keys.ArrowLeft && setting.x > 5) { // условие если keys.ArrowLeft тру, (а оно тру когда мы нажимаем кнопку лефт) И && больше чем 5 (это нужно для того что машинка не сьехала из дороги, тоесть когда мы отнимаем от setting.x декремент  setting.speed и setting.x  становиться  становиться меньше чем чем 5 то машинка отсновиться и не поедет в лево)
       setting.x -= setting.speed;
     }
     if (keys.ArrowRight && setting.x < (GAME_AREA.offsetWidth - (CAR.offsetWidth + 5))) {
@@ -163,7 +163,6 @@ function playGame() {
     }
     CAR.style.left = setting.x + 'px';
     CAR.style.top = setting.y + 'px';
-    requestAnimationFrame(playGame);
   }
 }
 
@@ -186,20 +185,18 @@ function moveRoad() {
     // потому, что ему установлено в css свойство overflow: hidden.
     // elem.y = i * HEIGHT_ELEM
     // 
-    // console.log(elem.y);
     if (elem.y >= GAME_AREA.offsetHeight) { //+++++++++++++++++++++++++++++++++++++++++++++
       elem.y = -HEIGHT_ELEM;                //+++++++++++++++++++++++++++++++++++++++++++++
     }
-    console.log(elem.y);
   });
 }
 
 
 function moveEnemy() {
-  let enemyPage = document.querySelectorAll('.enemy');
+  let enemyPage = document.querySelectorAll('.enemy'); //получаем нод лист машинок
 
-  enemyPage.forEach(function (elem) {
-    let carRect = CAR.getBoundingClientRect();
+  enemyPage.forEach((elem) => { // обращаемся к каждому елементу  
+    let carRect = CAR.getBoundingClientRect(); // getBoundingClientRect() возвращает размер элемента и его позицию относительно game_area
     let enemyRect = elem.getBoundingClientRect();
     if (carRect.top <= enemyRect.bottom &&
       carRect.right >= enemyRect.left &&
@@ -211,10 +208,8 @@ function moveEnemy() {
       audioEngine.currentTime = 0;
       audioMuzlo.pause();
       audioMuzlo.currentTime = 0;
-
-
     }
-
+    
     elem.y += setting.speed / 2;
     elem.style.top = elem.y + 'px';
 
@@ -259,7 +254,5 @@ function stopRun(event) {
 
   }
 }
-/* ================================================================================================
-  давляем музыку
-*/
+
 
