@@ -55,7 +55,7 @@ const keys = {
 // обьект настроек start отвечает за включение игры, score очки, speed скорость игры, traffic плотность enemy
 const setting = {
   start: false,
-  score: 0,
+  score: 1,
   speed: 5,
   traffic: 2,
 };
