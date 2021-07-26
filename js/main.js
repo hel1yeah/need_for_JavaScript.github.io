@@ -1,27 +1,27 @@
-'use strict';
-// получаем константы 
-const SCORE = document.querySelector('.score'),
-  START = document.querySelector('.start'),
-  GAME_AREA = document.querySelector('.game_area'),
-  CAR = document.createElement('div'), // createElement создаёт на странице елемент div
-  RESET = document.querySelector('.reset'),
-  GAME = document.querySelector('.game'),
+"use strict";
+// получаем константы
+const SCORE = document.querySelector(".score"),
+  START = document.querySelector(".start"),
+  GAME_AREA = document.querySelector(".game_area"),
+  CAR = document.createElement("div"), // createElement создаёт на странице елемент div
+  RESET = document.querySelector(".reset"),
+  GAME = document.querySelector(".game"),
   HEIGHT_ELEM = 100; // присваеваем константе HEIGHT_ELEM значение 100. Это значение (100) часто повторяется по этому так и делаем.
 
 /* вешаем обработчик событий click на константу START
   при клике на див с классом .start запускаем фунцию  startGame */
-START.addEventListener('click', startGame);
+START.addEventListener("click", startGame);
 
 /* вешаем обработчик событий keydown (нажатая кнопка) на константу весь html document. При нажатии запускаеться функция startRun*/
-document.addEventListener('keydown', startRun);
+document.addEventListener("keydown", startRun);
 
 /* вешаем обработчик событий keyup (отпущенная кнопка  кнопка) на константу весь html document. При нажатии запускаеться функция stopRun */
-document.addEventListener('keyup', stopRun);
+document.addEventListener("keyup", stopRun);
 
 // делаем звук
 // музыка
 // создаём на странице елемент "audio" и присваеваем его константе audioMuzlo
-const audioMuzlo = document.createElement('audio');
+const audioMuzlo = document.createElement("audio");
 // указываем атрибут src и относительный путь к файлу которій должен запускаться для audioMuzlo
 // audioMuzlo.src = '../audio/soundTrack.mp3';
 // для audioMuzlo задаём звук от 0 до 1
@@ -29,7 +29,7 @@ audioMuzlo.volume = 0.3;
 
 // звук мотора
 // создаём на странице елемент "audio" и присваеваем его константе audioEngine
-const audioEngine = document.createElement('audio');
+const audioEngine = document.createElement("audio");
 // указываем атрибут src и относительный путь к файлу которій должен запускаться для audioEngine
 // audioEngine.src = '../audio/engine1.mp3';
 // для audioEngine задаём звук от 0 до 1 с помощью атрибута volume
@@ -38,8 +38,10 @@ audioEngine.volume = 0.2;
 audioEngine.loop = true;
 
 // настройки высоты GAME_AREA
-// константе  COUNT_SECTION присваеваем высоту экрана делённую на нашу высоту елемента (HEIGHT_ELEM) и округлить до меньшего числа. 
-const COUNT_SECTION = Math.floor(document.documentElement.clientHeight / HEIGHT_ELEM);
+// константе  COUNT_SECTION присваеваем высоту экрана делённую на нашу высоту елемента (HEIGHT_ELEM) и округлить до меньшего числа.
+const COUNT_SECTION = Math.floor(
+  document.documentElement.clientHeight / HEIGHT_ELEM
+);
 
 // присваеваем значению height константы GAME_AREA значение COUNT_SECTION умноженное на HEIGHT_ELEM
 // это делаеться для того что бы определить высоту кратную длинне наших дорожных линий и что бы линии не накладывались друг на друга.
@@ -55,16 +57,14 @@ const keys = {
 // обьект настроек start отвечает за включение игры, score очки, speed скорость игры, traffic плотность enemy
 const setting = {
   start: false,
-  score: 0,
+  score: 1,
   speed: 5,
   traffic: 2,
 };
-// getQuantityElements функция которая возвращает количевство елементов на странице 
+// getQuantityElements функция которая возвращает количевство елементов на странице
 function getQuantityElements(HEIGHT_ELEM) {
-  return (GAME_AREA.offsetHeight / HEIGHT_ELEM) + 1;
-
+  return GAME_AREA.offsetHeight / HEIGHT_ELEM + 1;
 }
-
 
 // функция startGame выполняеться после нажатия на блок 'start' и запускает функцию playGame
 function startGame() {
@@ -82,136 +82,141 @@ function startGame() {
   // присваеваем значение 3 для стилей zIndex константы RESET
   RESET.style.zIndex = 3;
   // присваеваем константе SCORE ещё один класс .active
-  SCORE.classList.add('active');
+  SCORE.classList.add("active");
   // обнуляем GAME_AREA
-  GAME_AREA.innerHTML = ' ';
+  GAME_AREA.innerHTML = " ";
   // обращаемся к обьекту setting и его свойству start и записываем туда значение true
   setting.start = true;
   //Добавляем на страницу в конец константы GAME_AREA CAR с помощью метода append, он добавляет набор объектов Node или DOMString в конец после последнего потомка
   GAME_AREA.append(CAR);
   // Добавляем созданному елементу класс car
-  CAR.classList.add('car');
-  // устанавливаем краёнее левое положение CAR при первом старте игры 
+  CAR.classList.add("car");
+  // устанавливаем краёнее левое положение CAR при первом старте игры
   // отнимая от половины ширины дороги половину ширины авто
-  CAR.style.left = ((GAME_AREA.offsetWidth / 2) - CAR.offsetWidth / 2) + 'px';
-  // устанавливаем краёнее нижнее положение CAR при первом старте игры 
-  CAR.style.bottom = '15px';
+  CAR.style.left = GAME_AREA.offsetWidth / 2 - CAR.offsetWidth / 2 + "px";
+  // устанавливаем краёнее нижнее положение CAR при первом старте игры
+  CAR.style.bottom = "15px";
   // добавляем в обьект свойст х, у.
   // и добавляем в эти свойста значение в х растояние от левой внутренной границы дороги (GAME_AREA) до левой внешнеё границы машины (CAR)
   setting.x = CAR.offsetLeft;
   // и добавляем в эти свойста значение в у растояние от верхней внутренной границы дороги (GAME_AREA) до верхней внешней границы машины (CAR)
   setting.y = CAR.offsetTop;
 
-  // начинаем цикл фор 
+  // начинаем цикл фор
   // он начинаеться от 0 заканчиваеться относительно высоты дороги при каждом повтрении итериции i увеличеваеться на  1, чем больше HEIGHT_ELEM тем больше итериций
   // этот цикл создаёт линии (LINE) розметки на дороге (GAME_AREA)
   for (let i = 0; i < getQuantityElements(HEIGHT_ELEM); i++) {
     // создаём див на странице и присваеваем его константе LINE
-    const LINE = document.createElement('div');
+    const LINE = document.createElement("div");
     // присваеваем елементу div константы LINE класс .line
-    LINE.classList.add('line');
+    LINE.classList.add("line");
     // присваеваем стилям константы LINE значению top "номер" итерации умноженный на высоту елемента, унстанавливаем где появится первый елемент
     // LINE.style.top = `${(i * HEIGHT_ELEM) + 200}px`;
     // добавляем в GAME_AREA созданную выше константу LINE
     GAME_AREA.append(LINE);
-    // записываем в обьект LINE новое свойство y и задаём ему значение 
+    // записываем в обьект LINE новое свойство y и задаём ему значение
     LINE.y = i * HEIGHT_ELEM;
-   }
-  
+  }
 
   for (let i = 0; i < getQuantityElements(HEIGHT_ELEM * setting.traffic); i++) {
-    const enemy = document.createElement('div');
-    const randomEnemy = Math.floor(Math.random() * 11) + 1 ;
-    enemy.classList.add('enemy');
+    const enemy = document.createElement("div");
+    const randomEnemy = Math.floor(Math.random() * 11) + 1;
+    enemy.classList.add("enemy");
     enemy.y = -HEIGHT_ELEM * setting.traffic * (1 + i);
-    enemy.style.left = Math.floor(Math.random() * (GAME_AREA.offsetWidth - HEIGHT_ELEM/2)) + 'px';
+    enemy.style.left =
+      Math.floor(Math.random() * (GAME_AREA.offsetWidth - HEIGHT_ELEM / 2)) +
+      "px";
     enemy.style.background = `transparent url(../image/enemy${randomEnemy}.png) center no-repeat`;
-    enemy.style.backgroundSize = 'cover';
-    enemy.style.top = enemy.y + 'px';
+    enemy.style.backgroundSize = "cover";
+    enemy.style.top = enemy.y + "px";
     GAME_AREA.append(enemy);
   }
 }
 // функция playGame  перезапускает саму себя постоянно пока значение setting.start === true
 function playGame() {
-    if (setting.start) {
+  if (setting.start) {
     setting.score += setting.speed;
-    SCORE.innerHTML = 'SCORE: <br>' + setting.score;
+    SCORE.innerHTML = "SCORE: <br>" + setting.score;
     moveRoad();
     moveEnemy();
     if (keys.ArrowLeft && setting.x > 5) {
       setting.x -= setting.speed;
     }
-      if (keys.ArrowRight && setting.x < (GAME_AREA.offsetWidth - (CAR.offsetWidth + 5))) {
+    if (
+      keys.ArrowRight &&
+      setting.x < GAME_AREA.offsetWidth - (CAR.offsetWidth + 5)
+    ) {
       setting.x += setting.speed;
     }
     if (keys.ArrowUp && setting.y > 5) {
       setting.y -= setting.speed;
     }
-      if (keys.ArrowDown && setting.y < (GAME_AREA.offsetHeight - (CAR.offsetHeight + 5))) {
+    if (
+      keys.ArrowDown &&
+      setting.y < GAME_AREA.offsetHeight - (CAR.offsetHeight + 5)
+    ) {
       setting.y += setting.speed;
     }
-      CAR.style.left = setting.x + 'px';
-      CAR.style.top = setting.y + 'px';
+    CAR.style.left = setting.x + "px";
+    CAR.style.top = setting.y + "px";
     requestAnimationFrame(playGame);
   }
 }
 
-// движение дороги 
+// движение дороги
 function moveRoad() {
-// присваеваем переменной linesPage = NodeList.
-// который имеет в себе количевство линий что мы сделали выше.
-  let linesPage = document.querySelectorAll('.LINE');
+  // присваеваем переменной linesPage = NodeList.
+  // который имеет в себе количевство линий что мы сделали выше.
+  let linesPage = document.querySelectorAll(".LINE");
   // с помощью цикла forEach перебераем все елементы в нутри NodeList переменной linesPage
   linesPage.forEach((elem) => {
-
     elem.y += setting.speed;
-    elem.style.top = elem.y + 'px';
+    elem.style.top = elem.y + "px";
     if (elem.y >= GAME_AREA.offsetHeight) {
       elem.y = -HEIGHT_ELEM;
     }
   });
 }
 
-
 function moveEnemy() {
-  let enemyPage = document.querySelectorAll('.enemy');
+  let enemyPage = document.querySelectorAll(".enemy");
 
   enemyPage.forEach(function (elem) {
     let carRect = CAR.getBoundingClientRect();
     let enemyRect = elem.getBoundingClientRect();
-    if (carRect.top <= enemyRect.bottom &&
+    if (
+      carRect.top <= enemyRect.bottom &&
       carRect.right >= enemyRect.left &&
       carRect.left <= enemyRect.right &&
-      carRect.bottom >= enemyRect.top) {
+      carRect.bottom >= enemyRect.top
+    ) {
       setting.start = false;
       RESET.style.zIndex = 1;
       audioEngine.pause();
       audioEngine.currentTime = 0;
       audioMuzlo.pause();
       audioMuzlo.currentTime = 0;
-      
-
     }
 
     elem.y += setting.speed / 2;
-    elem.style.top = elem.y + 'px';
+    elem.style.top = elem.y + "px";
 
     if (elem.y >= GAME_AREA.offsetHeight) {
       elem.y = -HEIGHT_ELEM * setting.traffic;
-      elem.style.left = Math.floor(Math.random() * (GAME_AREA.offsetWidth - elem.offsetWidth)) + 'px';
+      elem.style.left =
+        Math.floor(Math.random() * (GAME_AREA.offsetWidth - elem.offsetWidth)) +
+        "px";
     }
-
   });
 }
 // начать игру с начала
-RESET.addEventListener('click',  () =>{
+RESET.addEventListener("click", () => {
   setting.start = false;
   RESET.style.zIndex = 1;
   audioEngine.pause();
   audioEngine.currentTime = 0;
   audioMuzlo.pause();
   audioMuzlo.currentTime = 0;
-  
 });
 /* ================================================================================================ 
   Решение проблемы с способом preventDefault (стандарнтного поведения браузера при нажатых клавишах)
@@ -220,7 +225,7 @@ RESET.addEventListener('click',  () =>{
   если кнопка нажата то в обьект keys в свойство обьекта записываем true;
 */
 function startRun(event) {
-  if (event.key !== 'F5' && event.key !== 'F12') {
+  if (event.key !== "F5" && event.key !== "F12") {
     event.preventDefault();
     if (event.key) {
       keys[event.key] = true;
@@ -231,13 +236,11 @@ function startRun(event) {
   если отпущенная кнопка есть в ствойствах обьекта keys то скидываем стандартное поведение клавиш которых отпускаем и присваеваем этому свойству = false
 */
 function stopRun(event) {
-    if (keys.hasOwnProperty(event.key)) {
-      event.preventDefault();
-      keys[event.key] = false;
-      
-    }
+  if (keys.hasOwnProperty(event.key)) {
+    event.preventDefault();
+    keys[event.key] = false;
+  }
 }
 /* ================================================================================================
   давляем музыку
 */
-
